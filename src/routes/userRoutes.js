@@ -8,6 +8,7 @@ import ContactPage from "../pages/ContactPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import { Route } from "react-router-dom";
+import PostCarPage from "../pages/PostCarPage";
 
 function UserRoutes() {
   return (
@@ -15,6 +16,7 @@ function UserRoutes() {
       <Route index element={<HomePage />} />
       <Route path="cars" element={<CarsPage />} />
       <Route path="cars/:id" element={<CarDetailPage />} />
+      <Route path="cars/post" element={<PostCarPage />} />
       <Route path="about" element={<AboutPage />} />
       <Route path="contact" element={<ContactPage />} />
       <Route path="login" element={<LoginPage />} />
