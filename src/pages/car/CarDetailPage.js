@@ -114,9 +114,12 @@ function CarDetailPage() {
                 <span className="price-amount">${car.pricePerDay}</span>
                 <span>/ day</span>
               </div>
-              {/* <Link to="/checkout" className="btn btn-accent btn-block">
+              <Link
+                to={`/checkout/${car.id}`}
+                className="btn btn-accent btn-block"
+              >
                 Book Now
-              </Link> */}
+              </Link>
 
               {/* Tạm thời ẩn button Book Now */}
             </div>
