@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../context/AuthContext";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
   const [formData, setFormData] = useState({
     identifier: "",
     password: "",
@@ -38,17 +40,17 @@ function LoginPage() {
       }
 
       const token = data.data.token;
-      localStorage.setItem("token", token);
+      login(token); // Use context login method
 
-      const decoded = jwtDecode(token);
+      const decoded = JSON.parse(atob(token.split(".")[1])); // decode payload manually
+      const role = decoded.scope || decoded.role;
 
-      const role = decoded.scope;
       if (!role) throw new Error("Invalid token: missing role");
 
       if (role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/user/dashboard");
+        navigate("/");
       }
 
     } catch (err) {
@@ -63,7 +65,7 @@ function LoginPage() {
         <h1 className="page-title">Welcome Back</h1>
         <p className="form-subtitle">Log in to manage your bookings.</p>
 
-        <form id="login-form" className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="identifier">Email or Username</label>
             <input
@@ -97,8 +99,7 @@ function LoginPage() {
 
         <p className="form-switch-link">
           Don't have an account? <Link to="/register">Sign up now</Link>
-          <br />
-          <br />
+          <br /><br />
           <Link to="/">Back to Home</Link>
         </p>
       </div>
